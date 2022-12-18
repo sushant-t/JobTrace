@@ -4,16 +4,24 @@
   "icons": {
     "16": "favicon.ico",
     "48": "logo192.png",
-   "128": "logo512.png"
+    "128": "logo512.png"
   },
-  "permissions": [
-    "activeTab"
-  ],
-  "host_permissions": ["http://*/*","https://*/*"],
+  "permissions": ["activeTab", "identity"],
+  "optional_permissions": ["<all_urls>"],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "manifest_version": 3,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs5eSJlQHf8c8AY25RVPazaTW7cA9J2X/MlovmkMuIPAbF6YRIxyJamaYLc72zR0jEljnP5XfpHhIbp7pKddgFuGFabASWeN+kBoRyR5Br2lnyXeiTKf4bxnBm/xXKilVa/GYQ3U2KBCA/I4D3E4y1zDoRYDsHU7oLSl4kiWTf1gCm6YiXYKMw/fXut30MewKpCqo7wcK60D1s4cT/LaDMiFLzfWqYONRSEa0SGCgltTtiQoE6vBisgbdOc5rDVO8W0WiqTGvRyi3/M3+ni64qppOdgpPR80r8Us72CSzllS7KWz0I2QgCNrvmrODBIw0NGQS21VVmswTZQXpVrSVpQIDAQAB",
   "version": "0.0.1",
   "action": {
     "default_popup": "index.html",
     "default_title": "Job Application Tracker"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "oauth2": {
+    "client_id": "759938481453-1u6qhejgaarc5j5nmpefmfccm2dbccj4.apps.googleusercontent.com",
+    "scopes": [""]
   }
 }
