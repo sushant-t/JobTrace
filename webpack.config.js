@@ -3,6 +3,8 @@ const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 
 const config = {
   entry: {
@@ -66,6 +68,12 @@ const config = {
   },
   resolve: {
     extensions: [".js", ".jsx", ".tsx", ".ts"],
+    fallback: {
+      fs: false,
+      net: false,
+      tls: false,
+      child_process: false,
+    },
   },
   devServer: {
     static: {
@@ -79,11 +87,16 @@ const config = {
       patterns: [{ from: "public", to: "." }],
     }),
     new ReactRefreshWebpackPlugin(),
+    new NodePolyfillPlugin(),
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
+      hash: true,
+      title: "JobTrace",
+      myPageHeader: "Welcome To JobTrace",
+      template: "./src/index.html",
       filename: "./index.html",
       favicon: "./public/favicon.ico",
     }),
+    // new WebpackManifestPlugin({}),
   ],
 };
 

@@ -6,7 +6,7 @@
     "48": "logo192.png",
     "128": "logo512.png"
   },
-  "permissions": ["activeTab", "identity"],
+  "permissions": ["activeTab", "identity", "storage"],
   "optional_permissions": ["<all_urls>"],
   "host_permissions": ["http://*/*", "https://*/*"],
   "manifest_version": 3,
@@ -17,11 +17,23 @@
     "default_title": "Job Application Tracker"
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "Ctrl+M": {
+      "suggested_key": {
+        "default": "Ctrl+M",
+        "mac": "Command+M"
+      },
+      "description": "Ctrl+M."
+    }
   },
   "oauth2": {
     "client_id": "759938481453-1u6qhejgaarc5j5nmpefmfccm2dbccj4.apps.googleusercontent.com",
-    "scopes": [""]
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/drive.file",
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
   }
 }
