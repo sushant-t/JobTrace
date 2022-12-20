@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import JobNotification from "../../components/job_notification/JobNotification";
 
 export function showNotification() {
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" && !document.getElementById("react-root")) {
     const doc = document.querySelector("html");
     const body = document.querySelector("body") as HTMLElement;
     body.style.position = "relative";
