@@ -1,6 +1,20 @@
 import { getActiveTab } from "../utils/ChromeUtil";
 import { fetchGoogleToken } from "./auth/GoogleAuth";
+import { executeNotificationContentScript } from "./executors/ExecuteNotificationScript";
 import { updateSheetValues } from "./sheets/SheetsAPI";
+
+chrome.tabs.onActivated.addListener(() => {
+  console.log("tab switched");
+  executeNotificationContentScript();
+});
+
+var timeout: string | number | NodeJS.Timeout | undefined;
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  console.log("tab updated", tabId, changeInfo);
+
+  clearTimeout(timeout);
+  timeout = setTimeout(executeNotificationContentScript, 1000);
+});
 
 chrome.runtime.onMessage.addListener((request) => {
   console.log("Message received in background!", request);
@@ -9,24 +23,6 @@ chrome.runtime.onMessage.addListener((request) => {
     fetchGoogleToken().then((token) => {
       console.log("google token: ", token);
     });
-  } else if (request == "show_notification") {
-    chrome.tabs
-      .query({
-        active: true,
-        lastFocusedWindow: true,
-      })
-      .then((tabs) => {
-        var tab = tabs[0];
-        chrome.scripting.executeScript(
-          {
-            target: { tabId: tab.id as number },
-            files: ["content.js"],
-          },
-          () => {
-            chrome.tabs.sendMessage(tab.id as number, "show_notification");
-          }
-        );
-      });
   }
 });
 

@@ -15,9 +15,7 @@ function Dashboard() {
     });
   };
 
-  const handleAddJobClick = async () => {
-    chrome.runtime.sendMessage("show_notification");
-  };
+  const handleAddJobClick = async () => {};
   return (
     <div className="Dashboard">
       <Button variant="contained" onClick={handleAddJobClick}>
