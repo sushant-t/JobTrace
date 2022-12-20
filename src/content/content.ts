@@ -1,19 +1,9 @@
-// import { ChromeMessage, Sender } from
+import { showNotification } from "./injections/ShowNotification";
 
-// const messagesFromReactAppListener = (
-//   message: ChromeMessage,
-//   sender,
-//   response
-// ) => {
-//   console.log("[content.js]. Message received", {
-//     message,
-//     sender,
-//   });
+chrome.runtime.onMessage.addListener((request) => {
+  console.log("Message received in content script!", request);
 
-//   if (sender.id !== chrome.runtime.id || message.from !== Sender.React) return;
-// };
-
-// /**
-//  * Fired when a message is sent from either an extension process or a content script.
-//  */
-// chrome.runtime.onMessage.addListener(messagesFromReactAppListener);
+  if (request == "show_notification") {
+    showNotification();
+  }
+});
