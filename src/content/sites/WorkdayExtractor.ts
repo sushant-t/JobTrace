@@ -3,13 +3,10 @@ import { JobDetails } from "../actions/CollectJobInfo";
 
 export function createWorkdayJobDataURL(url: string): string {
   var tenant = getWorkdayTenant(url);
-  var assetPath = `/wday/cxs/${tenant}/`;
+  var siteId = getWorkdaySiteID(url);
+  var assetPath = `/wday/cxs/${tenant}/${siteId}/job/`;
 
-  return (
-    new URL(url).origin +
-    assetPath +
-    url.substring(url.indexOf(getWorkdaySiteID(url)))
-  );
+  return new URL(url).origin + assetPath + url.split("/").pop();
 }
 export function transformWorkdayIntoJobInfo(data: {
   [key: string]: any;
@@ -42,7 +39,7 @@ function getWorkdayCompany(url: string, description: string) {
 
 function getWorkdaySiteID(url: string) {
   var fields = url.split("/");
-  return fields[fields.indexOf("job") - 1];
+  return fields[Math.max(fields.indexOf("job"), fields.indexOf("details")) - 1];
 }
 
 function getWorkdayTenant(url: string) {
