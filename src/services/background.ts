@@ -1,6 +1,6 @@
 import { getActiveTab } from "../utils/ChromeUtil";
 import { fetchGoogleToken } from "./auth/GoogleAuth";
-import { executeNotificationContentScript } from "./executors/ExecuteNotificationScript";
+import { executeNotificationContentScript } from "./executors/NotificationExecutor";
 import { updateSheetValues } from "./sheets/SheetsAPI";
 
 chrome.tabs.onActivated.addListener(() => {
@@ -16,12 +16,18 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   timeout = setTimeout(executeNotificationContentScript, 1000);
 });
 
-chrome.runtime.onMessage.addListener((request) => {
+chrome.runtime.onMessage.addListener((request, sender) => {
   console.log("Message received in background!", request);
 
   if (request == "open_google_auth") {
     fetchGoogleToken().then((token) => {
       console.log("google token: ", token);
+    });
+  }
+  if (request == "increment_badge") {
+    chrome.action.setBadgeText({
+      tabId: sender.tab!.id as number,
+      text: "1",
     });
   }
 });

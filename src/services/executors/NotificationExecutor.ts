@@ -7,6 +7,10 @@ export function executeNotificationContentScript() {
       })
       .then((tabs) => {
         var tab = tabs[0];
+        chrome.action.setBadgeText({
+          tabId: tab.id as number,
+          text: "",
+        });
         chrome.scripting.executeScript(
           {
             target: { tabId: tab.id as number },

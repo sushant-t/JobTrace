@@ -19,16 +19,22 @@ function showNotification() {
   }
 }
 
-function detectNotifications() {
-  console.log(
-    document.querySelector('[data-automation-id="jobPostingDescription"]')
-  );
+function notificationNeeded(): boolean {
+  // workday detection logic
   if (document.querySelector('[data-automation-id="jobPostingDescription"]')) {
     console.log("here");
+    return true;
+  }
+  return false;
+}
+
+function checkForNotifications() {
+  if (notificationNeeded()) {
     showNotification();
+    chrome.runtime.sendMessage("increment_badge");
   }
 }
 
 export function startNotifications() {
-  detectNotifications();
+  checkForNotifications();
 }
