@@ -1,5 +1,5 @@
 import axios from "axios";
-export async function getWorkdayJobListing(
+export async function queryJobDataURL(
   workdayURL: string
 ): Promise<Object | undefined> {
   try {
