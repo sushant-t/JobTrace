@@ -1,4 +1,7 @@
+var tabHashes: { [key: string]: boolean } = {};
+
 export function executeNotificationContentScript() {
+  console.log("executing notification script");
   try {
     chrome.tabs
       .query({
@@ -7,21 +10,42 @@ export function executeNotificationContentScript() {
       })
       .then((tabs) => {
         var tab = tabs[0];
-        chrome.action.setBadgeText({
-          tabId: tab.id as number,
-          text: "",
-        });
-        chrome.scripting.executeScript(
+        chrome.tabs.sendMessage(
+          tab.id as number,
           {
-            target: { tabId: tab.id as number },
-            files: ["content.js"],
+            message: "notifications_already",
           },
-          () => {
-            chrome.tabs.sendMessage(tab.id as number, "start_notifications");
+          (response) => {
+            console.log(response);
+
+            if (!response || !tabHashes[response.tabSig]) {
+              tabHashes[response.tabSig] = true;
+              // if the content script doesn't exist, response will be undefined!!!
+              setBadgeAndExecuteScript(tab, response.tabSig);
+            }
           }
         );
       });
   } catch (error) {
     console.log(error);
   }
+}
+
+function setBadgeAndExecuteScript(tab: chrome.tabs.Tab, tabSig: string) {
+  chrome.action.setBadgeText({
+    tabId: tab.id as number,
+    text: "",
+  });
+  chrome.scripting.executeScript(
+    {
+      target: { tabId: tab.id as number },
+      files: ["content.js"],
+    },
+    () => {
+      chrome.tabs.sendMessage(tab.id as number, {
+        message: "start_notifications",
+        tabSig: tabSig,
+      });
+    }
+  );
 }
