@@ -2,7 +2,7 @@ import React from "react";
 import "./Dashboard.css";
 
 import { Button } from "@mui/material";
-import { getJobInfo } from "../../content/actions/CollectJobInfo";
+import { getWorkdayJobInfo } from "../../content/sites/WorkdayExtractor";
 
 function Dashboard() {
   const handleAuthClick = () => {
@@ -10,7 +10,7 @@ function Dashboard() {
   };
 
   const handleSaveJobClick = () => {
-    getJobInfo().then((data) => {
+    getWorkdayJobInfo().then((data) => {
       console.log(data);
     });
   };

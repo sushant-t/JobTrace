@@ -1,5 +1,6 @@
 import { capitalize } from "../../utils/MiscUtil";
-import { JobDetails } from "../actions/CollectJobInfo";
+import { getActiveTabURL, JobDetails } from "../actions/CollectJobInfo";
+import { getWorkdayJobListing } from "../queries/WorkdayJobQuery";
 
 export function createWorkdayJobDataURL(url: string): string {
   var tenant = getWorkdayTenant(url);
@@ -51,15 +52,13 @@ function doesCompanyMatchDescription(company: string, description: string) {
   return description.toLowerCase().indexOf(company.toLowerCase()) >= 0;
 }
 
-function getWorkdayJobTitleDOM() {
-  const elems = document.querySelectorAll(
-    "[data-automation-id='[data-automation-id='jobPostingHeader']"
+export async function getWorkdayJobInfo(): Promise<JobDetails | void> {
+  var url = await getActiveTabURL();
+  url = createWorkdayJobDataURL(url);
+  var data: { [key: string]: any } | undefined = await getWorkdayJobListing(
+    url
   );
-  if (elems.length) {
-    return elems[0].textContent;
+  if (data) {
+    return transformWorkdayIntoJobInfo(data);
   }
-}
-
-function getWorkdayJobLocationDOM() {
-  const elems = document.querySelectorAll("[data-automation-id='locations']");
 }
