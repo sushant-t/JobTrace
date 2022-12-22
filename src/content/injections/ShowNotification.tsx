@@ -32,6 +32,9 @@ function checkForNotifications() {
   if (notificationNeeded()) {
     showNotification();
     chrome.runtime.sendMessage("increment_badge");
+  } else {
+    var el = document.getElementById("react-root")?.children[0] as HTMLElement;
+    el.click(); // click inside container
   }
 }
 

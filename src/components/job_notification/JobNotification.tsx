@@ -3,11 +3,30 @@ import React from "react";
 import "./JobNotification.css";
 
 function JobNotification() {
+  const [open, setOpen] = React.useState(true);
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   return (
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      open={true}
-      autoHideDuration={6000}
+      open={open}
+      onClick={handleClose}
+      TransitionProps={{
+        onExited: (node) => {
+          if (open == false) {
+            document.getElementById("react-root")?.remove();
+          }
+        },
+      }}
     >
       <SnackbarContent
         sx={{
