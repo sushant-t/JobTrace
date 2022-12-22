@@ -22,6 +22,11 @@ export function executeNotificationContentScript() {
               tabHashes[response.tabSig] = true;
               // if the content script doesn't exist, response will be undefined!!!
               setBadgeAndExecuteScript(tab, response.tabSig);
+            } else {
+              refreshNotificationContentScript(
+                tab.id as number,
+                response.tabSig
+              );
             }
           }
         );
@@ -48,4 +53,15 @@ function setBadgeAndExecuteScript(tab: chrome.tabs.Tab, tabSig: string) {
       });
     }
   );
+}
+
+export function refreshNotificationContentScript(
+  tabId: number,
+  tabSig: string
+) {
+  console.log("refreshing.....");
+  chrome.tabs.sendMessage(tabId as number, {
+    message: "start_notifications",
+    tabSig: tabSig,
+  });
 }
