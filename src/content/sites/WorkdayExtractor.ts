@@ -48,7 +48,7 @@ function getWorkdayTenant(url: string) {
 }
 
 function doesCompanyMatchDescription(company: string, description: string) {
-  return description.toLowerCase().indexOf(company) >= 0;
+  return description.toLowerCase().indexOf(company.toLowerCase()) >= 0;
 }
 
 function getWorkdayJobTitleDOM() {
