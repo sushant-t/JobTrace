@@ -1,6 +1,6 @@
 import { capitalize } from "../../utils/MiscUtil";
 import { getActiveTabURL, JobDetails } from "../actions/CollectJobInfo";
-import { getWorkdayJobListing } from "../queries/WorkdayJobQuery";
+import { queryJobDataURL } from "../queries/JobQuery";
 
 export function createWorkdayJobDataURL(url: string): string {
   var tenant = getWorkdayTenant(url);
@@ -52,12 +52,11 @@ function doesCompanyMatchDescription(company: string, description: string) {
   return description.toLowerCase().indexOf(company.toLowerCase()) >= 0;
 }
 
-export async function getWorkdayJobInfo(): Promise<JobDetails | void> {
-  var url = await getActiveTabURL();
+export async function getWorkdayJobInfo(
+  url: string
+): Promise<JobDetails | void> {
   url = createWorkdayJobDataURL(url);
-  var data: { [key: string]: any } | undefined = await getWorkdayJobListing(
-    url
-  );
+  var data: { [key: string]: any } | undefined = await queryJobDataURL(url);
   if (data) {
     return transformWorkdayIntoJobInfo(data);
   }
