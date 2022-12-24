@@ -74,6 +74,9 @@ const config = {
       tls: false,
       child_process: false,
     },
+    alias: {
+      "axios/lib": path.resolve(__dirname, "node_modules/axios/lib"),
+    },
   },
   devServer: {
     static: {

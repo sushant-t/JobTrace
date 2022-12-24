@@ -4,7 +4,6 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
-    "@vespaiach/axios-fetch-adapter": "^0.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -21,7 +20,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/chrome": "^0.0.204",
-    "@types/google-spreadsheet": "^3.3.0",
+    "@types/gapi": "^0.0.43",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.10",
     "@types/react": "^18.0.26",
@@ -30,8 +29,9 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
-    "google-spreadsheet": "^3.3.0",
+    "googleapis": "^110.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "ky": "^0.33.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "react-refresh": "^0.14.0",
     "style-loader": "^3.3.1",
