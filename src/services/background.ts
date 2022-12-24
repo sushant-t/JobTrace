@@ -1,7 +1,7 @@
-import { getActiveTab } from "../utils/ChromeUtil";
+import { pushJobToSheetsAPI } from "../content/actions/CollectJobInfo";
 import { fetchGoogleToken } from "./auth/GoogleAuth";
 import { executeNotificationContentScript } from "./executors/NotificationExecutor";
-import { updateSheetValues } from "./sheets/SheetsAPI";
+import "regenerator-runtime/runtime.js";
 
 chrome.tabs.onActivated.addListener(() => {
   console.log("tab switched");
@@ -10,7 +10,7 @@ chrome.tabs.onActivated.addListener(() => {
 
 var timeout: string | number | NodeJS.Timeout | undefined;
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
-  console.log("tab updated", tabId, changeInfo);
+  // console.log("tab updated", tabId, changeInfo);
 
   clearTimeout(timeout);
   timeout = setTimeout(executeNotificationContentScript, 1000);
@@ -29,6 +29,10 @@ chrome.runtime.onMessage.addListener((request, sender) => {
       tabId: sender.tab!.id as number,
       text: "1",
     });
+  }
+
+  if (request == "push_job") {
+    pushJobToSheetsAPI(""); // change to spreadsheet id
   }
 });
 
