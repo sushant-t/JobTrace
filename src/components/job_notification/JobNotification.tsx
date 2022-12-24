@@ -1,5 +1,8 @@
-import { Snackbar, SnackbarContent } from "@mui/material";
+import { Button, Snackbar, SnackbarContent } from "@mui/material";
 import React from "react";
+import { getJobInfo } from "../../content/actions/CollectJobInfo";
+import { fetchGoogleToken } from "../../services/auth/GoogleAuth";
+import { updateSheetValues } from "../../services/sheets/SheetsAPI";
 import "./JobNotification.css";
 
 function JobNotification() {
@@ -15,6 +18,22 @@ function JobNotification() {
 
     setOpen(false);
   };
+
+  const saveJob = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    chrome.runtime.sendMessage("push_job");
+    setTimeout(handleClose, 1000);
+  };
+  const saveButton = (
+    <Button
+      style={{ fontWeight: "bold" }}
+      color="secondary"
+      size="small"
+      onClick={saveJob}
+    >
+      SAVE
+    </Button>
+  );
   return (
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -39,6 +58,7 @@ function JobNotification() {
           width: "10vw",
           fontFamily: "Helvetica",
         }}
+        action={saveButton}
         message={
           <span id="message-id2">
             <div>Job posting detected!</div>
