@@ -17,9 +17,10 @@ export function transformEightfoldAIIntoJobInfo(
 ): JobDetails {
   const details: JobDetails = {};
   try {
+    // ORDER MATTERS, when pushing to Sheets API
     details.company = getEightfoldAICompany(url, data.job_description);
-    details.URL = url;
     details.role = data.name;
+    details.URL = url;
     details.status = "Sending application";
   } catch (err) {}
 

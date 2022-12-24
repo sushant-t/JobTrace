@@ -1,5 +1,5 @@
 import { capitalize } from "../../utils/MiscUtil";
-import { getActiveTabURL, JobDetails } from "../actions/CollectJobInfo";
+import { JobDetails } from "../actions/CollectJobInfo";
 import { queryJobDataURL } from "../queries/JobQuery";
 
 export function createWorkdayJobDataURL(url: string): string {
@@ -14,12 +14,13 @@ export function transformWorkdayIntoJobInfo(data: {
 }): JobDetails {
   const details: JobDetails = {};
   try {
+    // ORDER MATTERS, when pushing to Sheets API
     details.company = getWorkdayCompany(
       data.jobPostingInfo.externalUrl,
       data.jobPostingInfo.jobDescription
     );
-    details.URL = data.jobPostingInfo.externalUrl;
     details.role = data.jobPostingInfo.title;
+    details.URL = data.jobPostingInfo.externalUrl;
     details.status = "Sending application";
   } catch (err) {}
 
