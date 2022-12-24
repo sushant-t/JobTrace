@@ -1,3 +1,5 @@
+import { fetchGoogleToken } from "../../services/auth/GoogleAuth";
+import { updateSheetValues } from "../../services/sheets/SheetsAPI";
 import { getActiveTab } from "../../utils/ChromeUtil";
 import { getEightfoldAIJobInfo } from "../sites/EightfoldAIExtractor";
 import { getWorkdayJobInfo } from "../sites/WorkdayExtractor";
@@ -35,7 +37,14 @@ export async function getJobInfo(): Promise<any> {
   return data;
 }
 
-export function detectJobType(url: string): JobType | undefined {
+export async function pushJobToSheetsAPI(spreadsheet_id: string) {
+  var data: JobDetails = await getJobInfo();
+  var token = await fetchGoogleToken();
+  await updateSheetValues(token, spreadsheet_id, data);
+  return true;
+}
+
+function detectJobType(url: string): JobType | undefined {
   if (url.includes("myworkdayjobs.com")) {
     return JobType.WORKDAY;
   }
