@@ -21,8 +21,17 @@ function showNotification() {
 
 function notificationNeeded(): boolean {
   // workday detection logic
-  if (document.querySelector('[data-automation-id="jobPostingDescription"]')) {
-    console.log("here");
+  if (
+    document.URL.includes(".myworkdayjobs.com") &&
+    document.querySelector('[data-automation-id="jobPostingDescription"]')
+  ) {
+    return true;
+  }
+  // eightfold.ai logic
+  if (
+    document.URL.includes(".eightfold.ai") &&
+    document.querySelector(".position-apply-button")
+  ) {
     return true;
   }
   return false;
