@@ -1,6 +1,6 @@
 import { capitalize } from "../../utils/MiscUtil";
 import { JobDetails } from "../actions/CollectJobInfo";
-import { queryJobDataURL } from "../queries/JobQuery";
+import { queryJobDataFromURL } from "../queries/JobQuery";
 
 export function createWorkdayJobDataURL(url: string): string {
   var tenant = getWorkdayTenant(url);
@@ -57,7 +57,9 @@ export async function getWorkdayJobInfo(
   url: string
 ): Promise<JobDetails | void> {
   url = createWorkdayJobDataURL(url);
-  var data: { [key: string]: any } | undefined = await queryJobDataURL(url);
+  var data: { [key: string]: any } | undefined = (await queryJobDataFromURL(
+    url
+  )) as { [key: string]: any };
   if (data) {
     return transformWorkdayIntoJobInfo(data);
   }

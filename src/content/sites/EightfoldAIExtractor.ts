@@ -1,5 +1,5 @@
 import { JobDetails, getActiveTabURL } from "../actions/CollectJobInfo";
-import { queryJobDataURL } from "../queries/JobQuery";
+import { queryJobDataFromURL } from "../queries/JobQuery";
 
 export function createEightfoldAIDataURL(url: string): string {
   var link = new URL(url);
@@ -48,7 +48,9 @@ export async function getEightfoldAIJobInfo(
   url: string
 ): Promise<JobDetails | void> {
   var dataURL = createEightfoldAIDataURL(url);
-  var data: { [key: string]: any } | undefined = await queryJobDataURL(dataURL);
+  var data: { [key: string]: any } | undefined = (await queryJobDataFromURL(
+    dataURL
+  )) as { [key: string]: any };
   if (data) {
     return transformEightfoldAIIntoJobInfo(url, data);
   }
