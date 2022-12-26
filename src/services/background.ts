@@ -31,8 +31,8 @@ chrome.runtime.onMessage.addListener((request, sender) => {
     });
   }
 
-  if (request == "push_job") {
-    pushJobToSheetsAPI(""); // change to spreadsheet id
+  if (request.message && request.message == "push_job" && request.job_type) {
+    pushJobToSheetsAPI("", request.job_type); // change to spreadsheet id
   }
 });
 

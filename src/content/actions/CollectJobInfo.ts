@@ -2,6 +2,7 @@ import { fetchGoogleToken } from "../../services/auth/GoogleAuth";
 import { updateSheetValues } from "../../services/sheets/SheetsAPI";
 import { getActiveTab } from "../../utils/ChromeUtil";
 import { getEightfoldAIJobInfo } from "../sites/EightfoldAIExtractor";
+import { getLeverJobInfo } from "../sites/LeverExtractor";
 import { getWorkdayJobInfo } from "../sites/WorkdayExtractor";
 
 export interface JobDetails {
@@ -14,7 +15,9 @@ export interface JobDetails {
 export enum JobType {
   WORKDAY,
   EIGHTFOLD_AI,
+  LEVER,
 }
+
 class JobInfo {
   details: JobDetails;
   constructor(data: JobDetails) {
@@ -22,9 +25,9 @@ class JobInfo {
   }
 }
 
-export async function getJobInfo(): Promise<any> {
+export async function getJobInfo(type: string): Promise<any> {
   var url = await getActiveTabURL();
-  var job_type = detectJobType(url);
+  var job_type = detectJobType(type);
 
   var data;
   if (job_type == JobType.WORKDAY) {
@@ -33,23 +36,31 @@ export async function getJobInfo(): Promise<any> {
   if (job_type == JobType.EIGHTFOLD_AI) {
     data = await getEightfoldAIJobInfo(url);
   }
-
+  if (job_type == JobType.LEVER) {
+    data = await getLeverJobInfo(url);
+  }
   return data;
 }
 
-export async function pushJobToSheetsAPI(spreadsheet_id: string) {
-  var data: JobDetails = await getJobInfo();
+export async function pushJobToSheetsAPI(
+  spreadsheet_id: string,
+  job_type: string
+) {
+  var data: JobDetails = await getJobInfo(job_type);
   var token = await fetchGoogleToken();
   await updateSheetValues(token, spreadsheet_id, data);
   return true;
 }
 
-function detectJobType(url: string): JobType | undefined {
-  if (url.includes("myworkdayjobs.com")) {
+function detectJobType(type: string): JobType | undefined {
+  if (type == "workday") {
     return JobType.WORKDAY;
   }
-  if (url.includes(".eightfold.ai")) {
+  if (type == "eightfold_ai") {
     return JobType.EIGHTFOLD_AI;
+  }
+  if (type == "lever") {
+    return JobType.LEVER;
   }
 }
 

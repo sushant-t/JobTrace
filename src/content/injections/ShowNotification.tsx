@@ -19,22 +19,29 @@ function showNotification() {
   }
 }
 
-function notificationNeeded(): boolean {
+export function notificationNeeded(): string | undefined {
   // workday detection logic
   if (
     document.URL.includes(".myworkdayjobs.com") &&
     document.querySelector('[data-automation-id="jobPostingDescription"]')
   ) {
-    return true;
+    return "workday";
   }
   // eightfold.ai logic
   if (
     document.URL.includes(".eightfold.ai") &&
     document.querySelector(".position-apply-button")
   ) {
-    return true;
+    return "eightfold_ai";
   }
-  return false;
+  // lever.co logic
+  if (
+    document.URL.includes("jobs.lever.co") &&
+    document.querySelector(".postings-btn")
+  ) {
+    return "lever";
+  }
+  return;
 }
 
 function checkForNotifications() {

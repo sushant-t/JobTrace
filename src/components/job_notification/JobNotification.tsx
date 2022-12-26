@@ -1,8 +1,6 @@
 import { Button, Snackbar, SnackbarContent } from "@mui/material";
 import React from "react";
-import { getJobInfo } from "../../content/actions/CollectJobInfo";
-import { fetchGoogleToken } from "../../services/auth/GoogleAuth";
-import { updateSheetValues } from "../../services/sheets/SheetsAPI";
+import { notificationNeeded } from "../../content/injections/ShowNotification";
 import "./JobNotification.css";
 
 function JobNotification() {
@@ -21,7 +19,10 @@ function JobNotification() {
 
   const saveJob = (e: React.MouseEvent) => {
     e.stopPropagation();
-    chrome.runtime.sendMessage("push_job");
+    chrome.runtime.sendMessage({
+      message: "push_job",
+      job_type: notificationNeeded(),
+    });
     setTimeout(handleClose, 1000);
   };
   const saveButton = (

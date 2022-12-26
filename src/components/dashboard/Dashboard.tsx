@@ -3,17 +3,14 @@ import "./Dashboard.css";
 
 import { Button } from "@mui/material";
 import { getJobInfo } from "../../content/actions/CollectJobInfo";
+import { notificationNeeded } from "../../content/injections/ShowNotification";
 
 function Dashboard() {
   const handleAuthClick = () => {
     chrome.runtime.sendMessage("open_google_auth");
   };
 
-  const handleSaveJobClick = () => {
-    getJobInfo().then((data) => {
-      console.log(data);
-    });
-  };
+  const handleSaveJobClick = () => {};
 
   const handleAddJobClick = async () => {};
   return (
