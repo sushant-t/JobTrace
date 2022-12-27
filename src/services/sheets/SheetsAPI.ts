@@ -1,4 +1,4 @@
-import { JobDetails } from "../../content/actions/CollectJobInfo";
+import { JobDetails } from "../actions/CollectJobInfo";
 import ky from "ky";
 const API_KEY = "";
 

@@ -1,5 +1,5 @@
-import { fetchGoogleToken } from "../../services/auth/GoogleAuth";
-import { updateSheetValues } from "../../services/sheets/SheetsAPI";
+import { fetchGoogleToken } from "../auth/GoogleAuth";
+import { updateSheetValues } from "../sheets/SheetsAPI";
 import { getActiveTab } from "../../utils/ChromeUtil";
 import { getEightfoldAIJobInfo } from "../sites/EightfoldAIExtractor";
 import { getGreenhouseJobInfo } from "../sites/GreenhouseExtractor";

@@ -30,6 +30,9 @@ function JobNotification() {
       style={{ fontWeight: "bold" }}
       color="secondary"
       size="small"
+      sx={{
+        fontSize: "1.5vh",
+      }}
       onClick={saveJob}
     >
       SAVE

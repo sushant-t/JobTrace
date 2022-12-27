@@ -1,4 +1,4 @@
-import { pushJobToSheetsAPI } from "../content/actions/CollectJobInfo";
+import { pushJobToSheetsAPI } from "./actions/CollectJobInfo";
 import { fetchGoogleToken } from "./auth/GoogleAuth";
 import { executeNotificationContentScript } from "./executors/NotificationExecutor";
 import "regenerator-runtime/runtime.js";

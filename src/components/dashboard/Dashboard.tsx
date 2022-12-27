@@ -2,8 +2,6 @@ import React from "react";
 import "./Dashboard.css";
 
 import { Button } from "@mui/material";
-import { getJobInfo } from "../../content/actions/CollectJobInfo";
-import { notificationNeeded } from "../../content/injections/ShowNotification";
 
 function Dashboard() {
   const handleAuthClick = () => {
