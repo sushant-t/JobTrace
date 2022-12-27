@@ -41,6 +41,13 @@ export function notificationNeeded(): string | undefined {
   ) {
     return "lever";
   }
+  // greenhouse.io logic
+  if (
+    document.URL.includes(".greenhouse.io") &&
+    document.querySelector("#application_form[action*='greenhouse']")
+  ) {
+    return "greenhouse";
+  }
   return;
 }
 
