@@ -2,6 +2,7 @@ import { fetchGoogleToken } from "../../services/auth/GoogleAuth";
 import { updateSheetValues } from "../../services/sheets/SheetsAPI";
 import { getActiveTab } from "../../utils/ChromeUtil";
 import { getEightfoldAIJobInfo } from "../sites/EightfoldAIExtractor";
+import { getGreenhouseJobInfo } from "../sites/GreenhouseExtractor";
 import { getLeverJobInfo } from "../sites/LeverExtractor";
 import { getWorkdayJobInfo } from "../sites/WorkdayExtractor";
 
@@ -16,7 +17,15 @@ export enum JobType {
   WORKDAY,
   EIGHTFOLD_AI,
   LEVER,
+  GREENHOUSE,
 }
+
+var job_types: { [key: string]: JobType } = {
+  workday: JobType.WORKDAY,
+  eightfold_ai: JobType.EIGHTFOLD_AI,
+  lever: JobType.LEVER,
+  greenhouse: JobType.GREENHOUSE,
+};
 
 class JobInfo {
   details: JobDetails;
@@ -39,6 +48,9 @@ export async function getJobInfo(type: string): Promise<any> {
   if (job_type == JobType.LEVER) {
     data = await getLeverJobInfo(url);
   }
+  if (job_type == JobType.GREENHOUSE) {
+    data = await getGreenhouseJobInfo(url);
+  }
   return data;
 }
 
@@ -53,15 +65,7 @@ export async function pushJobToSheetsAPI(
 }
 
 function detectJobType(type: string): JobType | undefined {
-  if (type == "workday") {
-    return JobType.WORKDAY;
-  }
-  if (type == "eightfold_ai") {
-    return JobType.EIGHTFOLD_AI;
-  }
-  if (type == "lever") {
-    return JobType.LEVER;
-  }
+  return job_types[type];
 }
 
 export async function getActiveTabURL(): Promise<string> {
