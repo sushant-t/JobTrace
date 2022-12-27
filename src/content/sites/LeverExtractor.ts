@@ -1,4 +1,3 @@
-import { parse } from "path";
 import { JobDetails } from "../actions/CollectJobInfo";
 import { queryJobDataFromURL } from "../queries/JobQuery";
 import cheerio from "cheerio";
