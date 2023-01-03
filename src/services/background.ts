@@ -32,7 +32,10 @@ chrome.runtime.onMessage.addListener((request, sender) => {
   }
 
   if (request.message && request.message == "push_job" && request.job_type) {
-    pushJobToSheetsAPI("", request.job_type); // change to spreadsheet id
+    pushJobToSheetsAPI(
+      process.env.REACT_GOOGLE_SHEET_IDENTIFIER as string,
+      request.job_type
+    ); // change to spreadsheet id
   }
 });
 

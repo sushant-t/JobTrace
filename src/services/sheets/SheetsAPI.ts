@@ -1,6 +1,6 @@
 import { JobDetails } from "../actions/CollectJobInfo";
 import ky from "ky";
-const API_KEY = "";
+const API_KEY = process.env.REACT_GOOGLE_SHEETS_API_KEY as string;
 
 function transformDataIntoUpdateSheetsValues(
   data: JobDetails,
