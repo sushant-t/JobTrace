@@ -43,8 +43,8 @@ export function notificationNeeded(): string | undefined {
   }
   // greenhouse.io logic
   if (
-    document.URL.includes(".greenhouse.io") &&
-    document.querySelector("#application_form[action*='greenhouse']")
+    document.querySelector("#application_form[action*='greenhouse']") ||
+    document.querySelector("[src*='greenhouse.io/embed']")
   ) {
     return "greenhouse";
   }
